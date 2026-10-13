@@ -1,0 +1,4 @@
+LIBRARY "CreateFile.Shell.dll"
+EXPORTS
+    DllGetClassObject PRIVATE
+    DllCanUnloadNow PRIVATE

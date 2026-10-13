@@ -1,0 +1,38 @@
+<Window x:Class="CreateFile_App.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Create New File">
+ <Window.SystemBackdrop><MicaBackdrop /></Window.SystemBackdrop>
+ <Grid x:Name="Root" Padding="28" RowSpacing="16">
+  <Grid.RowDefinitions>
+   <RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <Grid>
+   <StackPanel Spacing="4">
+    <TextBlock Text="Create New File" Style="{ThemeResource TitleTextBlockStyle}" />
+    <TextBlock Text="A small beginning for your next idea." Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+   </StackPanel>
+   <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="OpenSettings" AutomationProperties.Name="Open settings" ToolTipService.ToolTip="Settings"><FontIcon Glyph="&#xE713;"/></Button>
+  </Grid>
+  <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+   <StackPanel Spacing="14">
+    <StackPanel Spacing="4">
+     <TextBlock Text="CREATE IN" FontSize="11" FontWeight="SemiBold" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+     <TextBox Text="{Binding Directory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Target folder"/>
+     <HyperlinkButton Content="Choose folder…" Click="ChooseFolder" Padding="0"/>
+    </StackPanel>
+    <TextBox x:Name="FilenameBox" Header="Filename" Text="{Binding Filename, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="For example, main.py or .env" AutomationProperties.Name="Filename"/>
+    <TextBlock Text="{Binding Message}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" Foreground="{ThemeResource SystemFillColorCriticalBrush}"/>
+    <TextBlock Text="Any extension, dotfiles, or no extension. Existing files are never replaced." TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+    <AutoSuggestBox x:Name="SearchBox" Header="Find a file type" PlaceholderText="Name, extension or filename, e.g. python, .md, gitignore" QueryIcon="Find" UpdateTextOnSelect="False" TextChanged="SearchChanged" QuerySubmitted="SearchSubmitted" AutomationProperties.Name="Search file types"/>
+    <ComboBox x:Name="Presets" Header="File types · favorites first" HorizontalAlignment="Stretch" SelectionChanged="PresetChanged" AutomationProperties.Name="File type preset"/>
+    <ComboBox x:Name="Templates" Header="Starting content" HorizontalAlignment="Stretch" AutomationProperties.Name="File template"/>
+    <InfoBar IsOpen="True" IsClosable="False" Severity="Informational" Message="Empty files contain zero bytes. Choosing .pdf, .docx, .png, or .zip does not create a valid document, image, or archive."/>
+    <InfoBar x:Name="SuccessBar" IsOpen="False" Severity="Success" Title="File created" IsClosable="True"/>
+   </StackPanel>
+  </ScrollViewer>
+  <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+   <Button Content="Cancel" Click="Cancel" MinWidth="90"/>
+   <Button x:Name="CreateButton" Content="Create file" Click="CreateClicked" IsEnabled="{Binding CanCreate}" Style="{ThemeResource AccentButtonStyle}" MinWidth="120"/>
+  </StackPanel>
+ </Grid>
+</Window>

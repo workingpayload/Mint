@@ -1,0 +1,18 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="ARM64" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/CreateFile.App/CreateFile.App.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|ARM64" Project="ARM64" />
+    </Project>
+    <Project Path="src/CreateFile.Cli/CreateFile.Cli.csproj" />
+    <Project Path="src/CreateFile.Core/CreateFile.Core.csproj" />
+    <Project Path="src/CreateFile.Shell/CreateFile.Shell.vcxproj" Id="c419d0d4-39ca-43a8-9b43-75514bab6b78" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CreateFile.Core.Tests/CreateFile.Core.Tests.csproj" />
+  </Folder>
+</Solution>

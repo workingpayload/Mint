@@ -1,0 +1,33 @@
+name: Windows build and test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2025
+    strategy:
+      fail-fast: false
+      matrix:
+        architecture: [x64, ARM64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build, test, and package
+        shell: pwsh
+        run: ./scripts/Build.ps1 -Architecture ${{ matrix.architecture }} -Package
+      - name: Native smoke test (x64 host)
+        if: matrix.architecture == 'x64'
+        shell: pwsh
+        run: ./scripts/Test-Shell.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CreateFile-${{ matrix.architecture }}-unsigned
+          path: |
+            artifacts/*.msix
+            artifacts/app/
+          if-no-files-found: error
