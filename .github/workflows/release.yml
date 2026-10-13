@@ -1,0 +1,62 @@
+name: Release
+on:
+  push:
+    tags: ['v*.*.*']
+permissions:
+  contents: read
+jobs:
+  installer:
+    runs-on: windows-2025
+    strategy:
+      fail-fast: true
+      matrix:
+        architecture: [x64, ARM64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Check tag matches project version
+        shell: pwsh
+        run: |
+          $version = ([xml](Get-Content Directory.Build.props -Raw)).Project.PropertyGroup.Version
+          if ("v$version" -ne $env:GITHUB_REF_NAME) { throw "Tag $env:GITHUB_REF_NAME does not match Directory.Build.props version $version." }
+      - name: Core tests
+        shell: pwsh
+        run: dotnet run --project tests/CreateFile.Core.Tests -c Release
+      - name: Install Inno Setup
+        shell: pwsh
+        run: if (!(Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+      - name: Build installer
+        shell: pwsh
+        run: ./scripts/Build-Installer.ps1 -Architecture ${{ matrix.architecture }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.architecture }}
+          path: artifacts/Mint-Setup-*.exe
+          if-no-files-found: error
+  publish:
+    needs: installer
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: installer-*
+          merge-multiple: true
+          path: dist
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          cd dist
+          sha256sum Mint-Setup-*.exe > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+          cd ..
+          # 0.x releases are previews until signing and the remaining platform checks are done.
+          prerelease=""
+          case "$TAG" in v0.*) prerelease="--prerelease" ;; esac
+          gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Mint ${TAG#v}" --notes-file .github/release-notes.md --verify-tag $prerelease

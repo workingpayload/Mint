@@ -6,6 +6,10 @@ The product display name is **Mint**. Internal identifiers such as the package i
 
 **Status: first working implementation, not a verified production release.** The x64 app, CLI, native DLL, automated tests, and unsigned MSIX build locally. The SDK validates the MSIX manifest. The modern and classic Explorer menus have been verified live on Windows 11 build 26300 x64. Windows 10, ARM64, redirected Desktop and UNC shares are still unverified. See [verification results and checklist](docs/VERIFICATION.md).
 
+## Install (users)
+
+Download `Mint-Setup-<version>-x64.exe` (or `-ARM64.exe`) from [Releases](https://github.com/workingpayload/Mint/releases) and run it. It installs per user into `%LOCALAPPDATA%\Programs\Mint` without administrator rights, bundles .NET and the Windows App SDK, adds Start menu shortcuts (**Mint**, **Mint Settings**), and optionally adds **Create New File** to the classic Explorer menu (under **Show more options** on Windows 11). The installer is unsigned for now, so SmartScreen may ask you to choose **More info → Run anyway**. Uninstall it from Installed apps. The uninstaller removes only menu entries that point to this installation and keeps settings. The top-level Windows 11 menu still needs the signed MSIX below.
+
 Follow the [P0 runbook](docs/P0-VERIFICATION.md) for strict tests, registration, registered COM activation, and the required Explorer observations. The runner saves structured evidence under `artifacts/p0` and never treats simulated native tests as proof of menu placement. The package declares the restricted `unvirtualizedResources` capability so that settings saved from an Explorer launch go to the real `%LOCALAPPDATA%\CreateFile`, which is shared with classic and CLI launches and kept on uninstall.
 
 ## Features
@@ -45,7 +49,12 @@ From the repository root in PowerShell:
 # Dependency-free automated core test runner (not a dotnet-test adapter).
 dotnet run --project tests/CreateFile.Core.Tests -c Release
 ./scripts/Test-Shell.ps1
+
+# Per-user installer (needs Inno Setup 6): artifacts/Mint-Setup-<version>-<arch>.exe
+./scripts/Build-Installer.ps1 -Architecture x64
 ```
+
+Pushing a tag `v<version>` that matches `Directory.Build.props` runs `.github/workflows/release.yml`. It runs the core tests, builds both installers, and publishes a GitHub Release with `SHA256SUMS.txt` and the notes in `.github/release-notes.md`. `v0.*` tags are published as pre-releases.
 
 `Build.ps1` discovers Visual Studio and the SDK; no machine-specific paths are embedded. It rebuilds its own `artifacts/app/<architecture>/<configuration>` staging directory. Close a running staged app before rebuilding. Use this script for the mixed C++/.NET solution; `dotnet build CreateFile.slnx` alone cannot build native VC projects. The solution is also provided for an appropriately equipped Visual Studio version with .NET 10 support.
 
@@ -159,16 +168,18 @@ Imports receive fresh IDs. Text is limited to 1 MiB UTF-8, configuration/import 
 | `src/CreateFile.Shell` | Native COM DLL and independent smoke-test executable |
 | `tests/CreateFile.Core.Tests` | Offline automated test suite |
 | `packaging`, `scripts`, `assets` | Manifest, build/sign/install/diagnostics, reproducible icon source |
+| `installer/Mint.iss` | Per-user Inno Setup installer (self-contained app, classic verb) |
 | `.github/workflows/build.yml` | x64/ARM64 CI, tests, unsigned build artifacts |
+| `.github/workflows/release.yml` | Tag-triggered installers and GitHub Release |
 
 ## Release readiness and limitations
 
 - Run the Windows 10/11 manual matrix and registered COM activation before claiming Explorer support. Registration was denied in this sandbox.
-- ARM64 configuration and CI are supplied, but local ARM64 tools were missing and ARM64 execution is untested.
+- ARM64 builds pass in GitHub CI, but ARM64 execution on hardware is untested.
 - System toast notifications are not implemented; success feedback is in the dialog and is not visible after automatic close.
 - About/update links open https://github.com/workingpayload/Mint (`ProjectInfo.RepositoryUrl`). Updates mean opening the GitHub Releases page; Mint does not download or install code automatically.
 - Store submission needs the Store-assigned identity/publisher, signing, `runFullTrust` review, Windows App Certification Kit testing, and Store association. These are not provided by an unsigned local package.
-- A traditional installer/sparse identity package is not implemented. The supported distribution path supplied here is MSIX, with an unpackaged classic-only development option.
+- Two distribution paths are supplied. The unsigned per-user Inno Setup installer gives the classic menu only. The MSIX also gives the top-level Windows 11 menu, but needs signing and trust. A sparse identity package is not implemented. Neither the installer nor the MSIX is code-signed yet.
 - Windows may reject long paths depending on filesystem, policy, and runtime. Permission errors, offline shares, and disk-full failures are reported. A failed/cancelled write may leave a partial **new** file; the app warns rather than deleting a path another process might have replaced.
 - The settings window uses straightforward WinUI event handlers; file-creation state uses MVVM. Broader UI automation, accessibility/high-contrast and release performance testing remain on the manual checklist.
 

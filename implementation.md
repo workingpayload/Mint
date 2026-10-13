@@ -206,9 +206,9 @@ The built unsigned framework-dependent MSIX is approximately 10.8 MB. This is an
 | Package validation | MakeAppx schema/payload validation enabled and passed. | Signing and trusted install. |
 | Signing | Certificate-thumbprint signing and verification script. | A real signing certificate, matching Publisher, trust, and timestamp configuration. No key was created or committed. |
 | Install/uninstall | MSIX install with optional dependencies; package/classic cleanup script. | Successful install, upgrade, repair, and uninstall verification. |
-| GitHub Releases | Version metadata, license, unsigned MSIX, checksum, CI artifact upload configuration. Repository: https://github.com/workingpayload/Mint; CI passes. | Actual signed release publication. |
+| GitHub Releases | Repository https://github.com/workingpayload/Mint; CI passes. A tag `v<version>` runs `.github/workflows/release.yml`, which publishes the installers, `SHA256SUMS.txt`, and `.github/release-notes.md`. `v0.*` releases are pre-releases. | Signed releases. |
 | Microsoft Store | MSIX foundation provided. | Store identity/association, restricted-capability review, WACK, certification, and submission. |
-| Traditional installer | Unpackaged app and classic-menu scripts available. | No traditional installer or sparse/package-identity installer implemented. |
+| Traditional installer | Per-user Inno Setup installer (`installer/Mint.iss`, `scripts/Build-Installer.ps1`) bundles .NET and the Windows App SDK (self-contained), adds Start menu shortcuts and the optional classic verb, and uninstalls only verbs that point to its own folder. Verified 2026-10-14 on Windows 11 x64: silent install, menu launch creating a file through UIA, Settings launch, task-off install, uninstall cleanup, and a foreign verb kept. The ARM64 installer compiles. | Unsigned (SmartScreen warning). No top-level Windows 11 menu, because that needs a sparse/MSIX identity. Not run on ARM64 hardware or Windows 10. |
 | Windows 10 / Windows 11 | Minimum API target and both menu implementations provided. | Real OS compatibility matrix, including modern Windows 11 placement. |
 | ARM64 | Project and CI configuration provided. The ARM64 build passes in GitHub CI. | Build and test on ARM64 hardware. |
 
@@ -307,7 +307,8 @@ Live verification (2026-10-12, normal user session, Windows 11 26300 x64, real E
 
 - [x] Run the supplied workflow in the real GitHub repository (passes x64 and ARM64). Publish releases when authorized.
 - [ ] Complete Microsoft Store association, identity, certification, and submission.
-- [ ] Add a traditional installer with supported package identity if that optional distribution route is needed.
+- [x] Add a traditional (per-user Inno Setup) installer. Classic menu only.
+- [ ] Add sparse package identity to the installer for the top-level Windows 11 menu (needs a signing certificate).
 - [ ] Consider richer update checks, automatic duplicate detection, configuration merge/backup, and a standard test adapter as follow-up enhancements.
 - [x] Configure repository/update links: https://github.com/workingpayload/Mint.
 

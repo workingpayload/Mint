@@ -27,7 +27,8 @@ Existing project files were reused. Generated `bin`, `obj`, `.vs`, test output, 
 - `scripts/Build.ps1`, `Package.ps1`, `Sign.ps1`, `Install.ps1`, `Uninstall.ps1`.
 - `scripts/Classic-Integration.ps1`, `Verify-Integration.ps1`, `Test-Shell.ps1`, `Generate-Assets.ps1`.
 - `assets/logo.svg`.
-- `.github/workflows/build.yml`.
+- `.github/workflows/build.yml`, `.github/workflows/release.yml`, `.github/release-notes.md`.
+- `installer/Mint.iss`, `scripts/Build-Installer.ps1`: per-user Inno Setup installer.
 - `docs/VERIFICATION.md`, `docs/FILES.md`.
 - `implementation.md`: requirement-by-requirement status and pending work.
 - `src/CreateFile.Shell/CommandLine.h`, `TestFolderSite.h`: shared quoting and simulated background-site test support.
