@@ -5,7 +5,7 @@ Push-Location $root
 try {
     $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
     $msbuild = & $vswhere -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
-    if (!$msbuild) { throw 'Install Visual Studio C++ build tools with MSVC v143 and a Windows 10/11 SDK.' }
+    if (!$msbuild) { throw 'Install Visual Studio C++ build tools (MSVC v143 or newer) and a Windows 10/11 SDK.' }
     & $msbuild src/CreateFile.Shell/CreateFile.Shell.vcxproj /p:Configuration=$Configuration /p:Platform=$Architecture /v:minimal
     if ($LASTEXITCODE) { throw 'Native build failed.' }
     dotnet run --project tests/CreateFile.Core.Tests -c $Configuration
