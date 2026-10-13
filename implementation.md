@@ -22,7 +22,7 @@ Status terms used below:
 | WinUI 3 / Windows App SDK | Native XAML application; pinned WinUI 2.3.9, InteractiveExperiences 2.1.9, and Windows App Runtime 2.5.1 packages. | Built and launched. Full supported-OS matrix pending. |
 | Native C++ / COM | MSVC v143 DLL implements `IExplorerCommand` and `IObjectWithSite`. | x64 compiled and standalone COM tests passed. |
 | No Electron or web interface | No Electron, HTML/CSS UI, or browser control is used. | Implemented. WinUI brings transitive WebView2 interop dependencies, but the app does not instantiate a browser. |
-| x64 and ARM64 | Project configurations, publish profiles, build script, and CI matrix cover x64/ARM64. Removed the unused x86 publish profile. | x64 verified. ARM64 build attempt failed because matching v143 ARM64 tools are absent; device testing pending. |
+| x64 and ARM64 | Project configurations, publish profiles, build script, and CI matrix cover x64/ARM64. Removed the unused x86 publish profile. | x64 verified. The ARM64 build passes in GitHub CI (default platform toolset); device testing pending. |
 | Official Microsoft integration mechanisms | Consulted Microsoft documentation for package extensions, COM registration, item-type schema, `IExplorerCommand.GetState`, and App SDK versions. References are linked in the README. | Supported mechanisms implemented; registration and live menus verified on Windows 11 26300 x64. |
 
 ## 2. Explorer context-menu integration
@@ -206,11 +206,11 @@ The built unsigned framework-dependent MSIX is approximately 10.8 MB. This is an
 | Package validation | MakeAppx schema/payload validation enabled and passed. | Signing and trusted install. |
 | Signing | Certificate-thumbprint signing and verification script. | A real signing certificate, matching Publisher, trust, and timestamp configuration. No key was created or committed. |
 | Install/uninstall | MSIX install with optional dependencies; package/classic cleanup script. | Successful install, upgrade, repair, and uninstall verification. |
-| GitHub Releases | Version metadata, license, unsigned MSIX, checksum, CI artifact upload configuration. | Workflow execution on GitHub and actual release publication. No repository was created/configured. |
+| GitHub Releases | Version metadata, license, unsigned MSIX, checksum, CI artifact upload configuration. Repository: https://github.com/workingpayload/Mint; CI passes. | Actual signed release publication. |
 | Microsoft Store | MSIX foundation provided. | Store identity/association, restricted-capability review, WACK, certification, and submission. |
 | Traditional installer | Unpackaged app and classic-menu scripts available. | No traditional installer or sparse/package-identity installer implemented. |
 | Windows 10 / Windows 11 | Minimum API target and both menu implementations provided. | Real OS compatibility matrix, including modern Windows 11 placement. |
-| ARM64 | Project and CI configuration provided. | Install missing toolchain; build and test on ARM64 hardware. |
+| ARM64 | Project and CI configuration provided. The ARM64 build passes in GitHub CI. | Build and test on ARM64 hardware. |
 
 No machine-specific development path is hardcoded into application logic or build scripts. Local artifact paths in this document describe the current workspace outputs.
 
@@ -236,7 +236,7 @@ These are results from the implementation session, not fresh test executions per
 | Modern package registration | Sandboxed attempts `0x80070005`; verified in a normal session on Windows 11 26300 (see P0). |
 | Registered COM activation / modern menu visibility | Verified live, after fixing the bootstrapper exit under inherited package identity. |
 | ARM64 build | Blocked by missing v143 ARM64 tools (MSB8020). |
-| GitHub Actions | Workflow written; no hosted execution verified. |
+| GitHub Actions | Verified 2026-10-14: workflow run [38471813367](https://github.com/workingpayload/Mint/actions/runs/38471813367) passed for x64 and ARM64 builds on windows-2025, with x64 native tests. The C++ projects use `$(DefaultPlatformToolset)` because the hosted runner lacks v143 ARM64 tools. |
 
 Automated coverage includes normal/custom extensions, extensionless names, dotfiles, Unicode, invalid characters and device names, duplicate names, folder collisions, concurrent creators, nonexistent/relative directories, literal template content, size rejection, all built-in presets/templates, import/export collisions, malformed imports, configuration round trips, corrupt/future configuration preservation, and rejection of invalid saves.
 
@@ -305,7 +305,7 @@ Live verification (2026-10-12, normal user session, Windows 11 26300 x64, real E
 
 ### P2: distribution and optional work
 
-- [ ] Run the supplied workflow in the real GitHub repository and publish releases when authorized.
+- [x] Run the supplied workflow in the real GitHub repository (passes x64 and ARM64). Publish releases when authorized.
 - [ ] Complete Microsoft Store association, identity, certification, and submission.
 - [ ] Add a traditional installer with supported package identity if that optional distribution route is needed.
 - [ ] Consider richer update checks, automatic duplicate detection, configuration merge/backup, and a standard test adapter as follow-up enhancements.
