@@ -1,7 +1,7 @@
-﻿using CreateFile.Core;
+using CreateFile.Core;
 if (args.Length == 0 || args[0] is "--help" or "-h")
 {
-    Console.WriteLine("Mint CLI\n  create <absolute-directory> <filename> [--template <template.json>]\n  validate <filename>\n  presets");
+    Console.WriteLine("Mint for Explorer CLI\n  create <absolute-directory> <filename> [--template <template.json>]\n  validate <filename>\n  presets");
     return 0;
 }
 if (args is ["validate", var name])

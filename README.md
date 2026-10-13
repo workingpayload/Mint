@@ -1,14 +1,14 @@
-# Mint
+# Mint for Explorer
 
-Mint (project/code name: CreateFile) is a native Windows utility for creating any valid filename from Explorer. C# / .NET 10, WinUI 3, and a small native C++ `IExplorerCommand` shell extension. MIT licensed. No service, startup task, telemetry, Electron, or browser-based UI.
+Mint for Explorer (project/code name: CreateFile) is a native Windows utility for creating any valid filename from Explorer. C# / .NET 10, WinUI 3, and a small native C++ `IExplorerCommand` shell extension. MIT licensed. No service, startup task, telemetry, Electron, or browser-based UI.
 
-The product display name is **Mint**. Internal identifiers such as the package identity, project, executable, and namespace names, and the `%LOCALAPPDATA%\CreateFile` settings folder still use `CreateFile`. This keeps existing registrations, scripts, and saved settings working.
+The product display name is **Mint for Explorer** (renamed from Mint in 0.1.1, because "Mint" is already taken on the Microsoft Store). The repository is still `workingpayload/Mint`. Internal identifiers such as the package identity, project, executable, and namespace names, and the `%LOCALAPPDATA%\CreateFile` settings folder still use `CreateFile`. This keeps existing registrations, scripts, and saved settings working.
 
 **Status: first working implementation, not a verified production release.** The x64 app, CLI, native DLL, automated tests, and unsigned MSIX build locally. The SDK validates the MSIX manifest. The modern and classic Explorer menus have been verified live on Windows 11 build 26300 x64. Windows 10, ARM64, redirected Desktop and UNC shares are still unverified. See [verification results and checklist](docs/VERIFICATION.md).
 
 ## Install (users)
 
-Download `Mint-Setup-<version>-x64.exe` (or `-ARM64.exe`) from [Releases](https://github.com/workingpayload/Mint/releases) and run it. It installs per user into `%LOCALAPPDATA%\Programs\Mint` without administrator rights, bundles .NET and the Windows App SDK, adds Start menu shortcuts (**Mint**, **Mint Settings**), and optionally adds **Create New File** to the classic Explorer menu (under **Show more options** on Windows 11). The installer is unsigned for now, so SmartScreen may ask you to choose **More info → Run anyway**. Uninstall it from Installed apps. The uninstaller removes only menu entries that point to this installation and keeps settings. The top-level Windows 11 menu still needs the signed MSIX below.
+Download `MintForExplorer-Setup-<version>-x64.exe` (or `-ARM64.exe`) from [Releases](https://github.com/workingpayload/Mint/releases) and run it. It installs per user into `%LOCALAPPDATA%\Programs\Mint for Explorer` (an upgrade keeps an existing folder) without administrator rights, bundles .NET and the Windows App SDK, adds Start menu shortcuts (**Mint for Explorer**, **Mint for Explorer Settings**), and optionally adds **Create New File** to the classic Explorer menu (under **Show more options** on Windows 11). The installer is unsigned for now, so SmartScreen may ask you to choose **More info → Run anyway**. Uninstall it from Installed apps. The uninstaller removes only menu entries that point to this installation and keeps settings. The top-level Windows 11 menu still needs the signed MSIX below.
 
 Follow the [P0 runbook](docs/P0-VERIFICATION.md) for strict tests, registration, registered COM activation, and the required Explorer observations. The runner saves structured evidence under `artifacts/p0` and never treats simulated native tests as proof of menu placement. The package declares the restricted `unvirtualizedResources` capability so that settings saved from an Explorer launch go to the real `%LOCALAPPDATA%\CreateFile`, which is shared with classic and CLI launches and kept on uninstall.
 
@@ -50,7 +50,7 @@ From the repository root in PowerShell:
 dotnet run --project tests/CreateFile.Core.Tests -c Release
 ./scripts/Test-Shell.ps1
 
-# Per-user installer (needs Inno Setup 6): artifacts/Mint-Setup-<version>-<arch>.exe
+# Per-user installer (needs Inno Setup 6): artifacts/MintForExplorer-Setup-<version>-<arch>.exe
 ./scripts/Build-Installer.ps1 -Architecture x64
 ```
 
@@ -132,8 +132,8 @@ For a signed MSIX installation:
 # Use a code-signing certificate already provisioned and trusted on the test machine.
 # Its subject must match CN=CreateFile, or rebuild with your actual Publisher:
 ./scripts/Package.ps1 -Stage ./artifacts/app/x64/Release -Publisher 'CN=Your Publisher'
-./scripts/Sign.ps1 -PackagePath ./artifacts/CreateFile-0.1.0.0-x64.msix -CertificateThumbprint YOUR_CERTIFICATE_THUMBPRINT
-./scripts/Install.ps1 -PackagePath ./artifacts/CreateFile-0.1.0.0-x64.msix
+./scripts/Sign.ps1 -PackagePath ./artifacts/CreateFile-0.1.1.0-x64.msix -CertificateThumbprint YOUR_CERTIFICATE_THUMBPRINT
+./scripts/Install.ps1 -PackagePath ./artifacts/CreateFile-0.1.1.0-x64.msix
 ./scripts/Verify-Integration.ps1
 ```
 

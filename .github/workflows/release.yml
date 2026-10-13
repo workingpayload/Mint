@@ -33,7 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: installer-${{ matrix.architecture }}
-          path: artifacts/Mint-Setup-*.exe
+          path: artifacts/MintForExplorer-Setup-*.exe
           if-no-files-found: error
   publish:
     needs: installer
@@ -53,7 +53,7 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: |
           cd dist
-          sha256sum Mint-Setup-*.exe > SHA256SUMS.txt
+          sha256sum MintForExplorer-Setup-*.exe > SHA256SUMS.txt
           cat SHA256SUMS.txt
           cd ..
-          gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Mint ${TAG#v}" --notes-file .github/release-notes.md --verify-tag --latest
+          gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Mint for Explorer ${TAG#v}" --notes-file .github/release-notes.md --verify-tag --latest

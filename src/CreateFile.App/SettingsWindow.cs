@@ -24,7 +24,7 @@ public sealed class SettingsWindow : Window
 
     public SettingsWindow()
     {
-        Title = "Mint · Settings";
+        Title = "Mint for Explorer · Settings";
         SystemBackdrop = new MicaBackdrop();
         WindowLayout.Size(this, 840, 820);
         Content = new ScrollViewer { Content = panel };
@@ -66,7 +66,7 @@ public sealed class SettingsWindow : Window
         panel.Children.Add(Row(Button("Add", () => ChangeTemplate(false)), Button("Update selected", () => ChangeTemplate(true)), Button("Delete", async () => { if (templates.SelectedItem is TextTemplate t) { settings.Templates.Remove(t); await Save(); Refresh(); } })));
         panel.Children.Add(Row(Button("Import JSON…", ImportTemplate), Button("Export selected…", ExportTemplate)));
         Section("About");
-        panel.Children.Add(Paragraph($"Mint {typeof(App).Assembly.GetName().Version} · MIT License\nCopyright © 2026 Mint contributors.\nNo background service, startup task, or telemetry."));
+        panel.Children.Add(Paragraph($"Mint for Explorer {typeof(App).Assembly.GetName().Version} · MIT License\nCopyright © 2026 Mint contributors.\nNo background service, startup task, or telemetry."));
         panel.Children.Add(Paragraph($"Source code and releases: {ProjectInfo.RepositoryUrl}"));
         panel.Children.Add(Row(Button("GitHub repository", () => OpenProject(false)), Button("Check for updates", () => OpenProject(true))));
         Refresh();

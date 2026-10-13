@@ -7,9 +7,9 @@
  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
  IgnorableNamespaces="uap desktop4 desktop5 desktop6 com rescap">
- <Identity Name="CreateFile" Publisher="CN=CreateFile" Version="0.1.0.0" ProcessorArchitecture="x64"/>
+ <Identity Name="CreateFile" Publisher="CN=CreateFile" Version="0.1.1.0" ProcessorArchitecture="x64"/>
  <!-- Explorer launches carry package identity; keep settings in the real %LOCALAPPDATA%\CreateFile shared with classic/CLI launches and kept after uninstall. -->
- <Properties><DisplayName>Mint</DisplayName><PublisherDisplayName>Mint contributors</PublisherDisplayName><Logo>Assets\StoreLogo.png</Logo><desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization></Properties>
+ <Properties><DisplayName>Mint for Explorer</DisplayName><PublisherDisplayName>Mint contributors</PublisherDisplayName><Logo>Assets\StoreLogo.png</Logo><desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization></Properties>
  <Dependencies>
   <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0"/>
   <PackageDependency Name="Microsoft.WindowsAppRuntime.2" MinVersion="2.5.1.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"/>
@@ -17,7 +17,7 @@
  <Resources><Resource Language="en-us"/></Resources>
  <Applications>
   <Application Id="App" Executable="CreateFile.App.exe" EntryPoint="Windows.FullTrustApplication">
-   <uap:VisualElements DisplayName="Mint" Description="Create any filename from Explorer" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.scale-200.png" Square44x44Logo="Assets\Square44x44Logo.scale-200.png">
+   <uap:VisualElements DisplayName="Mint for Explorer" Description="Create any filename from Explorer" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.scale-200.png" Square44x44Logo="Assets\Square44x44Logo.scale-200.png">
     <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.scale-200.png"/>
    </uap:VisualElements>
    <Extensions>
@@ -28,7 +28,7 @@
      </desktop4:FileExplorerContextMenus>
     </desktop4:Extension>
     <com:Extension Category="windows.comServer">
-     <com:ComServer><com:SurrogateServer DisplayName="Mint Explorer command">
+     <com:ComServer><com:SurrogateServer DisplayName="Mint for Explorer command">
       <com:Class Id="C419D0D4-39CA-43A8-9B43-75514BAB6B78" Path="CreateFile.Shell.dll" ThreadingModel="STA"/>
      </com:SurrogateServer></com:ComServer>
     </com:Extension>

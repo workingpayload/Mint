@@ -43,7 +43,7 @@ Existing project files were reused. Generated `bin`, `obj`, `.vs`, test output, 
 ## Local deliverables
 
 - `artifacts/app/x64/Final/CreateFile.App.exe`: latest verified framework-dependent app.
-- `artifacts/CreateFile-0.1.0.0-x64.msix`: latest unsigned package, MakeAppx validated.
+- `artifacts/CreateFile-0.1.1.0-x64.msix`: latest unsigned package, MakeAppx validated.
 - `artifacts/shell/x64/Release/CreateFile.Shell.dll` and `ShellSmoke.exe`.
 - `src/CreateFile.Cli/bin/Release/net10.0/CreateFile.Cli.exe`.
 - `artifacts/ui-smoke/ui-created-验证.env`: zero-byte UI creation evidence.

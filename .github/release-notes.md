@@ -1,19 +1,19 @@
-Mint adds **Create New File** to the Explorer right-click menu: pick a file type (or search for one), name it, and create it in that folder.
+Mint for Explorer adds **Create New File** to the Explorer right-click menu: pick a file type (or search for one), name it, and create it in that folder.
 
 ## Install
 
 1. Download the installer for your PC:
-   - `Mint-Setup-<version>-x64.exe` for most Intel/AMD PCs
-   - `Mint-Setup-<version>-ARM64.exe` for ARM PCs (Snapdragon / Surface Pro X)
+   - `MintForExplorer-Setup-<version>-x64.exe` for most Intel/AMD PCs
+   - `MintForExplorer-Setup-<version>-ARM64.exe` for ARM PCs (Snapdragon / Surface Pro X)
 2. Run it. No administrator rights are needed; it installs for your user only.
    The installer is not code-signed yet, so Windows SmartScreen may warn: choose **More info → Run anyway**.
 3. Right-click a folder, a folder background, or the desktop and choose **Create New File**.
    On Windows 11 it is under **Show more options** (or press Shift+F10).
 
 Everything is bundled (.NET and Windows App SDK); nothing else to install.
-Uninstall from **Settings → Apps → Installed apps → Mint**. Your settings in `%LOCALAPPDATA%\CreateFile` are kept.
+Uninstall from **Settings → Apps → Installed apps → Mint for Explorer**. Your settings in `%LOCALAPPDATA%\CreateFile` are kept.
 
-Verify the download with `SHA256SUMS.txt`: `Get-FileHash .\Mint-Setup-*.exe -Algorithm SHA256`.
+Verify the download with `SHA256SUMS.txt`: `Get-FileHash .\MintForExplorer-Setup-*.exe -Algorithm SHA256`.
 
 ## Preview limitations
 

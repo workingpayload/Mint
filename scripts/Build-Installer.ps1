@@ -1,5 +1,5 @@
 param([ValidateSet('x64','ARM64')][string]$Architecture = 'x64', [string]$Version)
-# Builds artifacts/Mint-Setup-<version>-<arch>.exe: a per-user Inno Setup installer for the
+# Builds artifacts/MintForExplorer-Setup-<version>-<arch>.exe: a per-user Inno Setup installer for the
 # self-contained app (bundled .NET and Windows App SDK) with the classic Explorer verb.
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
@@ -27,7 +27,7 @@ try {
     $output = Join-Path $root 'artifacts'
     & $iscc /Qp "/DAppVersion=$Version" "/DArch=$Architecture" "/DSourceDir=$app" "/DOutputDir=$output" installer/Mint.iss
     if ($LASTEXITCODE) { throw 'Installer compile failed.' }
-    $setup = Join-Path $output "Mint-Setup-$Version-$Architecture.exe"
+    $setup = Join-Path $output "MintForExplorer-Setup-$Version-$Architecture.exe"
     $hash = (Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash.ToLowerInvariant()
     Write-Host "Built installer: $setup"
     Write-Host "SHA256: $hash"

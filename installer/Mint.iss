@@ -1,4 +1,4 @@
-; Per-user Mint installer. Build with scripts/Build-Installer.ps1.
+; Per-user Mint for Explorer installer. Build with scripts/Build-Installer.ps1.
 ; Installs the self-contained app (bundled .NET and Windows App SDK) and the classic Explorer verb.
 ; The top-level Windows 11 menu needs the signed MSIX and is not provided here.
 
@@ -27,26 +27,26 @@
 
 [Setup]
 AppId={{639B58CD-9691-43B0-BE21-0963E342F454}
-AppName=Mint
+AppName=Mint for Explorer
 AppVersion={#AppVersion}
-AppVerName=Mint {#AppVersion}
+AppVerName=Mint for Explorer {#AppVersion}
 AppPublisher=Mint contributors
 AppPublisherURL={#RepoUrl}
 AppSupportURL={#RepoUrl}/issues
 AppUpdatesURL={#RepoUrl}/releases
 VersionInfoVersion={#AppVersion}
 PrivilegesRequired=lowest
-DefaultDirName={autopf}\Mint
-DefaultGroupName=Mint
+DefaultDirName={autopf}\Mint for Explorer
+DefaultGroupName=Mint for Explorer
 DisableProgramGroupPage=yes
 ArchitecturesAllowed={#AllowedArchitectures}
 ArchitecturesInstallIn64BitMode={#AllowedArchitectures}
 MinVersion=10.0.17763
 OutputDir={#OutputDir}
-OutputBaseFilename=Mint-Setup-{#AppVersion}-{#Arch}
+OutputBaseFilename=MintForExplorer-Setup-{#AppVersion}-{#Arch}
 SetupIconFile=..\src\CreateFile.App\Assets\AppIcon.ico
 UninstallDisplayIcon={app}\{#AppExe}
-UninstallDisplayName=Mint
+UninstallDisplayName=Mint for Explorer
 LicenseFile=..\LICENSE
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -60,9 +60,14 @@ Name: "classicmenu"; Description: "Add ""Create New File"" to the Explorer right
 [Files]
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Excludes: "*.pdb"; Flags: ignoreversion recursesubdirs createallsubdirs
 
+; Shortcuts from 0.1.0, when the app was named Mint.
+[InstallDelete]
+Type: files; Name: "{autoprograms}\Mint.lnk"
+Type: files; Name: "{autoprograms}\Mint Settings.lnk"
+
 [Icons]
-Name: "{autoprograms}\Mint"; Filename: "{app}\{#AppExe}"; Comment: "Create a new file on the Desktop"
-Name: "{autoprograms}\Mint Settings"; Filename: "{app}\{#AppExe}"; Parameters: "--settings"; Comment: "Mint presets, templates, and Explorer menu"
+Name: "{autoprograms}\Mint for Explorer"; Filename: "{app}\{#AppExe}"; Comment: "Create a new file on the Desktop"
+Name: "{autoprograms}\Mint for Explorer Settings"; Filename: "{app}\{#AppExe}"; Parameters: "--settings"; Comment: "Mint for Explorer presets, templates, and Explorer menu"
 
 ; Same keys and command format as ShellIntegration.EnableClassic. The \. suffix keeps a trailing separator from escaping the quote.
 [Registry]
@@ -77,7 +82,7 @@ Root: HKCU; Subkey: "Software\Classes\DesktopBackground\shell\CreateFile.New"; V
 Root: HKCU; Subkey: "Software\Classes\DesktopBackground\shell\CreateFile.New\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#AppExe}"" --folder ""%V\."""; Tasks: classicmenu
 
 [Run]
-Filename: "{app}\{#AppExe}"; Parameters: "--settings"; Description: "Open Mint settings"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#AppExe}"; Parameters: "--settings"; Description: "Open Mint for Explorer settings"; Flags: nowait postinstall skipifsilent
 
 [Code]
 // Removes only verbs that launch this installation, so an MSIX or script install elsewhere is left alone.

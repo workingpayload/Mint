@@ -200,6 +200,7 @@ The built unsigned framework-dependent MSIX is approximately 10.8 MB. This is an
 
 | Requirement | Completed | Pending |
 | --- | --- | --- |
+| Product name | Display name **Mint for Explorer** (0.1.1), because "Mint" is taken on the Microsoft Store. Used in the manifests, installer, Start menu, Settings/About, CLI, and release title. Publisher display name "Mint contributors", repository URL, and internal identifiers are unchanged. | Reserve the name in Partner Center. The Store identity and publisher come from that reservation. |
 | Application icon and package assets | Original Mint SVG logo (mint-green page with white leaf) and reproducible PNG/multi-size ICO generation script. | Branding review if desired. |
 | MSIX manifest | Name/version/publisher metadata, architecture, runtime dependency, `runFullTrust`, Explorer verbs, COM surrogate. | Production identity/publisher and deployment verification. |
 | Build automation | Tool discovery, core tests, CLI/native/app builds, architecture switch, package staging. | Self-contained .NET distribution build not verified locally; verified build uses `-FrameworkDependent`. |
@@ -341,7 +342,7 @@ dotnet run --project tests/CreateFile.Core.Tests -c Release -- --filter ReadOnly
 Current outputs:
 
 - `artifacts/app/x64/Final/CreateFile.App.exe`: latest verified framework-dependent app; requires .NET 10 and the Windows App Runtime.
-- `artifacts/CreateFile-0.1.0.0-x64.msix`: unsigned, SDK-validated package built from the latest code.
+- `artifacts/CreateFile-0.1.1.0-x64.msix`: unsigned, SDK-validated package built from the latest code.
 - `artifacts/SHA256SUMS.txt`: package checksum.
 - `artifacts/shell/x64/Release/CreateFile.Shell.dll` and `ShellSmoke.exe`.
 - `src/CreateFile.Cli/bin/Release/net10.0/CreateFile.Cli.exe`.
