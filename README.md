@@ -191,4 +191,4 @@ Imports receive fresh IDs. Text is limited to 1 MiB UTF-8, configuration/import 
 - [IExplorerCommand GetState and the fast-query contract](https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-iexplorercommand-getstate)
 - [Windows App SDK release channels](https://learn.microsoft.com/windows/apps/windows-app-sdk/release-channels)
 
-Contributions are welcome under [MIT](LICENSE). Never commit signing keys, change the COM CLSID casually, disable MSIX schema validation, or replace atomic exclusive creation with an existence-check/write sequence.
+Contributions are welcome under [MIT](LICENSE). See the [privacy policy](PRIVACY.md): the app collects no data. Never commit signing keys, change the COM CLSID casually, disable MSIX schema validation, or replace atomic exclusive creation with an existence-check/write sequence.

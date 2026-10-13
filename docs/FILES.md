@@ -47,3 +47,4 @@ Existing project files were reused. Generated `bin`, `obj`, `.vs`, test output, 
 - `artifacts/shell/x64/Release/CreateFile.Shell.dll` and `ShellSmoke.exe`.
 - `src/CreateFile.Cli/bin/Release/net10.0/CreateFile.Cli.exe`.
 - `artifacts/ui-smoke/ui-created-验证.env`: zero-byte UI creation evidence.
+- PRIVACY.md: privacy policy (no data collection); Store privacy URL.
