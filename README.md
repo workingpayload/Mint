@@ -54,7 +54,7 @@ dotnet run --project tests/CreateFile.Core.Tests -c Release
 ./scripts/Build-Installer.ps1 -Architecture x64
 ```
 
-Pushing a tag `v<version>` that matches `Directory.Build.props` runs `.github/workflows/release.yml`. It runs the core tests, builds both installers, and publishes a GitHub Release with `SHA256SUMS.txt` and the notes in `.github/release-notes.md`. `v0.*` tags are published as pre-releases.
+Pushing a tag `v<version>` that matches `Directory.Build.props` runs `.github/workflows/release.yml`. It runs the core tests, builds both installers, and publishes a GitHub Release with `SHA256SUMS.txt` and the notes in `.github/release-notes.md` as the Latest release.
 
 `Build.ps1` discovers Visual Studio and the SDK; no machine-specific paths are embedded. It rebuilds its own `artifacts/app/<architecture>/<configuration>` staging directory. Close a running staged app before rebuilding. Use this script for the mixed C++/.NET solution; `dotnet build CreateFile.slnx` alone cannot build native VC projects. The solution is also provided for an appropriately equipped Visual Studio version with .NET 10 support.
 

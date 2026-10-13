@@ -56,7 +56,4 @@ jobs:
           sha256sum Mint-Setup-*.exe > SHA256SUMS.txt
           cat SHA256SUMS.txt
           cd ..
-          # 0.x releases are previews until signing and the remaining platform checks are done.
-          prerelease=""
-          case "$TAG" in v0.*) prerelease="--prerelease" ;; esac
-          gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Mint ${TAG#v}" --notes-file .github/release-notes.md --verify-tag $prerelease
+          gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --title "Mint ${TAG#v}" --notes-file .github/release-notes.md --verify-tag --latest
